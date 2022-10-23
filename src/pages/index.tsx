@@ -8,10 +8,16 @@ import nextLogo from "../assets/next.svg";
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
   const [name, setName] = useState("");
+  const [number, setNumber] = useState(0);
+  const [resultNumber, setResultNumber] = useState(0);
 
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
     setGreetMsg(await invoke("greet", { name }));
+  }
+
+  async function calculate() {
+    setResultNumber(await invoke("calculate", { number }));
   }
 
   return (
@@ -69,7 +75,19 @@ function App() {
         </div>
       </div>
 
+      <div className="row">
+        <div>
+          <p>数値 : {number}</p>
+          <button type="button" onClick={() => calculate()}>
+            pow2
+          </button>
+          <button onClick={() => setNumber(number+1)}>+</button>
+          <button onClick={() => setNumber(number-1)}>-</button>
+        </div>
+      </div>
+
       <p>{greetMsg}</p>
+      <p>2倍した数値 : {resultNumber}</p>
     </div>
   );
 }
